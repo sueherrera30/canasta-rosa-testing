@@ -5,7 +5,10 @@ export class ProductsList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            ProductsList: []
+            ProductsList: [],
+            pages: [],
+            productsPerPage: []
+
         };
     }
     componentDidMount() {
@@ -13,14 +16,22 @@ export class ProductsList extends React.Component {
         axios.get(url)
             .then(res => {
                 const products = res.data;
-                console.log(products)
-                this.setState({ products });
+                this.setState({ 
+                    ProductsList : products,
+                    pages: res.data.pages,
+                    productsPerPage : res.data.results,
+                 });
+                console.log(this.state.ProductsList)
+                console.log(this.state.pages)
+                console.log(this.state.productsPerPage)
             });
     }
     render(){
         return(
              <div>
-                   
+                <ul>
+                     {this.state.productsPerPage.map((product)=> {return <li>{ product.name }</li> })}
+                </ul>
             </div>
         )
     }
